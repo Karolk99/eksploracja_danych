@@ -1,6 +1,5 @@
 import pandas as pd
 import plotly.express as px
-from typing import List
 
 
 class VisualizeLocalizations:

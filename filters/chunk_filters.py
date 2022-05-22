@@ -11,17 +11,17 @@ class AbstractFilter(ABC):
 
 
 class DropColumnsFilter(AbstractFilter):
-    def init(self, columns_to_drop: List[str]):
+    def __init__(self, columns_to_drop: List[str]):
         self.columns_to_drop = columns_to_drop
 
     def filter(self, data: pd.DataFrame) -> pd.DataFrame:
         return data.drop(
-            columns=self.columns_to_drops,
+            columns=self.columns_to_drop,
         )
 
 
 class SpecificValuesInRowFilter(AbstractFilter):
-    def init(self, column: str, acceptable_values: List):
+    def __init__(self, column: str, acceptable_values: List):
         self.column = column
         self.acceptable_values = acceptable_values
 
@@ -30,7 +30,7 @@ class SpecificValuesInRowFilter(AbstractFilter):
 
 
 class DateFilter(AbstractFilter):
-    def init(self, after: pd.Timestamp, before: pd.Timestamp, column: str):
+    def __init__(self, after: pd.Timestamp, before: pd.Timestamp, column: str):
         self.after = after
         self.before = self.before
         self.column = column
@@ -40,7 +40,7 @@ class DateFilter(AbstractFilter):
 
 
 class DistinctValuesFilter(AbstractFilter):
-    def init(self, distinct_columns: List):
+    def __init__(self, distinct_columns: List):
         self.distinct_columns = distinct_columns
 
     def filter(self, data: pd.DataFrame) -> pd.DataFrame:

@@ -1,6 +1,6 @@
 from typing import List
 import pandas as pd
-from chunk_filter import AbstractFilter
+from chunk_filters import AbstractFilter
 
 
 class LargeDataFilter:
