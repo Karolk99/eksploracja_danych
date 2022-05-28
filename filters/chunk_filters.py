@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from typing import List
 import pandas as pd
+from geopy import distance
 
 
 class AbstractFilter(ABC):
@@ -36,7 +37,7 @@ class DateFilter(AbstractFilter):
         self.column = column
 
     def filter(self, data: pd.DataFrame) -> pd.DataFrame:
-        return data.loc[self.before : self.after]
+        return data.loc[self.before: self.after]
 
 
 class DistinctValuesFilter(AbstractFilter):
@@ -45,3 +46,15 @@ class DistinctValuesFilter(AbstractFilter):
 
     def filter(self, data: pd.DataFrame) -> pd.DataFrame:
         return data.drop_duplicates(subset=self.distinct_columns)
+
+
+class InRadiusFilter(AbstractFilter):
+    def __init__(self, radius: int, power_plant_coordinates: (int, int)):
+        self.radius = radius
+        self.power_plant_coordinates = power_plant_coordinates
+
+    def in_radius(self, latitude, longitude):
+        return distance.distance(self.power_plant_coordinates, (latitude, longitude)).km < self.radius
+
+    def filter(self, data: pd.DataFrame) -> pd.DataFrame:
+        return data[data.apply(lambda x: self.in_radius(x['Latitude'], x['Longitude']), axis=1)]
