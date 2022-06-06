@@ -1,4 +1,3 @@
-from typing import List
 import pandas as pd
 from chunk_filters import AbstractFilter
 

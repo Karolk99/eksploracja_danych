@@ -3,6 +3,7 @@ from typing import List
 import pandas as pd
 from geopy import distance
 
+
 class AbstractFilter(ABC):
     @abstractmethod
     def filter(self, data: pd.DataFrame) -> pd.DataFrame:
@@ -38,7 +39,7 @@ class DateFilter(AbstractFilter):
         after_start_date = data["Captured Time"] >= self.after
         before_end_date = data["Captured Time"] <= self.before
         between_two_dates = after_start_date & before_end_date
-        
+
         return data.loc[between_two_dates]
 
 
@@ -49,6 +50,7 @@ class DistinctValuesFilter(AbstractFilter):
     def filter(self, data: pd.DataFrame) -> pd.DataFrame:
         return data.drop_duplicates(subset=self.distinct_columns)
 
+
 class EmptyCellsFilter(AbstractFilter):
     def __init__(self, columns: List):
         self.columns = columns
@@ -56,8 +58,9 @@ class EmptyCellsFilter(AbstractFilter):
     def filter(self, data: pd.DataFrame) -> pd.DataFrame:
         return data.dropna(subset=self.columns)
 
+
 class ConvertToDateTimeFilter(AbstractFilter):
-    def __init__(self, column: str, errors: str="raise"): # {‘ignore’, ‘raise’, ‘coerce’}
+    def __init__(self, column: str, errors: str = "raise"):  # {‘ignore’, ‘raise’, ‘coerce’}
         self.column = column
         self.errors = errors
 
@@ -65,14 +68,16 @@ class ConvertToDateTimeFilter(AbstractFilter):
         data[self.column] = pd.to_datetime(data[self.column], errors=self.errors)
         return data
 
+
 class ConvertToDateFilter(AbstractFilter):
-    def __init__(self, column: str, errors: str="raise"): # {‘ignore’, ‘raise’, ‘coerce’}
+    def __init__(self, column: str, errors: str = "raise"):  # {‘ignore’, ‘raise’, ‘coerce’}
         self.column = column
         self.errors = errors
 
     def filter(self, data: pd.DataFrame) -> pd.DataFrame:
         data[self.column] = pd.to_datetime(data[self.column], errors=self.errors).dt.date
         return data
+
 
 class InRadiusFilter(AbstractFilter):
     def __init__(self, radius: int, power_plant_coordinates: (int, int)):
