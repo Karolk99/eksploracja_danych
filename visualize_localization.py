@@ -38,4 +38,4 @@ class VisualizeLocalizations:
 
 
 if __name__ == "__main__":
-    VisualizeLocalizations.visualize("locations_distinct.csv")
+    VisualizeLocalizations.visualize("data/devices_list2.csv")

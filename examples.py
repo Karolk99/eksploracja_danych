@@ -1,5 +1,5 @@
-from filters.large_data_fitler import LargeDataFilter
-from filters.chunk_filters import (
+from eksploracja_danych.large_data_fitler import LargeDataFilter
+from chunk_filters import (
     DistinctValuesFilter,
     DateFilter,
     SpecificValuesInRowFilter,
