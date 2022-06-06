@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 import pandas as pd
-
+from geopy import distance
 
 class AbstractFilter(ABC):
     @abstractmethod
